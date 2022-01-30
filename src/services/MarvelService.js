@@ -22,6 +22,12 @@ class MarvelService {
         return this._transformCharacter(res[0]);
     }
 
+    getComics = async (id) =>{
+        const res = await this.createBaseApi().get(`characters/${id}/comics?limit=10&apikey=${this._apiCode}`)
+            .then(response => response.data.data.results);
+        return res;
+    }
+
     _transformCharacter = (response) => {
         return {
             id:response.id,
@@ -29,7 +35,8 @@ class MarvelService {
             description: response.description,
             thumbnail: response.thumbnail.path + '.' + response.thumbnail.extension,
             homepage: response.urls[0].url,
-            wiki: response.urls[1].url
+            wiki: response.urls[1].url,
+            comics: response.comics.items
         }
     }
 

@@ -28,7 +28,8 @@ class CharList extends React.Component {
 
     render() {
         const char = this.state.char;
-        const charItem = char.map(element => <CharItem key={element.id} name={element.name} thumbnail={element.thumbnail} />)
+        const onCharSelected = this.props.onCharSelected;
+        const charItem = char.map(element => <CharItem key={element.id} id = {element.id} onCharSelected={onCharSelected} name={element.name} thumbnail={element.thumbnail} />)
         return (
             <div className="char__list">
                 <ul className="char__grid">
@@ -43,9 +44,9 @@ class CharList extends React.Component {
 }
 
 
-const CharItem = ({ name, thumbnail }) => {
+const CharItem = ({ name, thumbnail,onCharSelected,id }) => {
     return (
-        <li className="char__item">
+        <li className="char__item" onClick={()=>{onCharSelected(id)}}>
             <img src={thumbnail} alt="abyss" />
             <div className="char__name">{name}</div>
         </li>
