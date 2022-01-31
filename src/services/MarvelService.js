@@ -2,6 +2,7 @@ import axios from 'axios';
 
 class MarvelService {
     _apiCode = '1bc7ce84491b34fe085720cc6b7cb6a5';
+    _offset = 511;
 
     createBaseApi = () => {
         return axios.create({
@@ -10,9 +11,10 @@ class MarvelService {
     }
 
     
-    getAllCharacter = async () => {
-        const res = await this.createBaseApi().get(`characters?limit=9&offset=511&apikey=${this._apiCode}`)
+    getAllCharacter = async ( offset = this._offset) => {
+        const res = await this.createBaseApi().get(`characters?limit=9&offset=${offset}&apikey=${this._apiCode}`)
             .then(response => response.data.data.results);
+            
         return res.map(this._transformCharacter);
     }
 
