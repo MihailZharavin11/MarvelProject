@@ -41,14 +41,17 @@ class CharInfo extends Component {
 
     updateChar = () => {
         const id = this.props.id;
+
         if (!id) {
             return;
         }
+
         this.setState({
             loading: true
         })
+
         this.marvelServise.getCharacter(id).then(this.onCharLoaded).catch(this.onEror)
-    }   
+    }
 
 
     render() {
@@ -67,19 +70,19 @@ class CharInfo extends Component {
 }
 
 
-const View = ({ char}) => {
-    const { name, thumbnail, description, homepage, wiki,comics } = char;
-    let imgStyle = {'objectFir':'cover'};
-    if(thumbnail==='http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'){
-        imgStyle =  {'objectFit' : 'contain'};
+const View = ({ char }) => {
+    const { name, thumbnail, description, homepage, wiki, comics } = char;
+    let imgStyle = { 'objectFir': 'cover' };
+    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+        imgStyle = { 'objectFit': 'contain' };
     }
-    const comicsElement = comics.map((element,i)=>{
-        if (i>10){
+    const comicsElement = comics.map((element, i) => {
+        if (i > 10) {
             return;
         }
-        return(
-            <ComicsItem key={element.id} title = {element.name}/>
-        ) 
+        return (
+            <ComicsItem key={element.id} title={element.name} />
+        )
     })
     return (
         <>
@@ -102,13 +105,13 @@ const View = ({ char}) => {
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
-                {comicsElement.length>0?comicsElement:'This character did not appear in the comics.'}
+                {comicsElement.length > 0 ? comicsElement : 'This character did not appear in the comics.'}
             </ul>
         </>
     );
 }
 
-const ComicsItem = ({title}) => {
+const ComicsItem = ({ title }) => {
     return (
         <li className="char__comics-item">
             {title}
