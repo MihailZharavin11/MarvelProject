@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './charInfo.scss';
 import Spinner from '../spinner/Spinner';
 import Errormessage from '../errorMessage/ErrorMessage';
@@ -12,6 +13,8 @@ class CharInfo extends Component {
         loading: false,
         error: false
     }
+
+
 
     componentDidMount() {
         this.updateChar();
@@ -81,7 +84,7 @@ const View = ({ char }) => {
             return;
         }
         return (
-            <ComicsItem key={element.id} title={element.name} />
+            <ComicsItem key={element.id} title={element.name}/>
         )
     })
     return (
@@ -111,12 +114,16 @@ const View = ({ char }) => {
     );
 }
 
-const ComicsItem = ({ title }) => {
+const ComicsItem = ({ title}) => {
     return (
         <li className="char__comics-item">
             {title}
         </li>
     );
+}
+
+CharInfo.propTypes = {
+    id:PropTypes.number
 }
 
 export default CharInfo;

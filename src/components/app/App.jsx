@@ -7,7 +7,7 @@ import CharInfo from "../charInfo/CharInfo";
 import decoration from '../../resources/img/vision.png';
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
-class App extends React.Component {
+class App extends Component {
     state = {
         selectedChar: null
     }

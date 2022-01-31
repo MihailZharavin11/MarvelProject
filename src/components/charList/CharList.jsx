@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './charList.scss';
 import MarvelService from '../../services/MarvelService';
 import Errormessage from '../errorMessage/ErrorMessage';
@@ -64,10 +65,12 @@ class CharList extends React.Component {
         const char = this.state.char;
         const onCharSelected = this.props.onCharSelected;
         const errorMessage = error? <Errormessage/> : null;
-        const loadingMessage = loading? <Spinner/> : null;  
-        const charItem = char.map(element => <CharItem key={element.id} id = {element.id} onCharSelected={onCharSelected} name={element.name} thumbnail={element.thumbnail} />)
+        const loadingMessage = loading? <Spinner/> : null;
+        const charItem = char.map(element => <CharItem key={element.id} id = {element.id} 
+                                            onCharSelected={onCharSelected} 
+                                            name={element.name} 
+                                            thumbnail={element.thumbnail} />)
         const content = !(loading || error)?charItem:null
-        debugger;
         return (
             <div className="char__list">
                 {errorMessage}
@@ -88,12 +91,34 @@ class CharList extends React.Component {
 
 
 const CharItem = ({ name, thumbnail,onCharSelected,id }) => {
+    const addedClassActive = (element)=>{
+        element.classList.add('char__item_selected')
+    }
+    const deleteClassActive = (element) =>{
+        element.classList.remove('char__item_selected')
+    }
+
+
     return (
-        <li className="char__item" onClick={()=>{onCharSelected(id)}}>
+        <li tabIndex={0}  className="char__item" onClick={(e)=>{
+            onCharSelected(id);
+            addedClassActive(e.currentTarget);
+        }}
+        onBlur={(e)=>deleteClassActive(e.currentTarget)}
+        onKeyPress={(e)=>{
+            if(e.key==='Enter'|| e.key ===' '){
+                addedClassActive(e.currentTarget);
+                onCharSelected(id);
+            }
+        }}>
             <img src={thumbnail} alt="abyss" />
             <div className="char__name">{name}</div>
         </li>
     )
+}
+
+CharList.propTypes = {
+    onCharSelected: PropTypes.func
 }
 
 export default CharList;
