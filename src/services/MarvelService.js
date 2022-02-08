@@ -1,38 +1,39 @@
-import axios from 'axios';
+import useHttp from '../Hooks/http.hooks';
 
-class MarvelService {
-    _apiCode = '1bc7ce84491b34fe085720cc6b7cb6a5';
-    _offset = 511;
+const useMarvelService = () => {
+    const _apiCode = '1bc7ce84491b34fe085720cc6b7cb6a5';
+    const _offset = 511;
+    const [loading, request, error,clearError] = useHttp();
 
-    createBaseApi = () => {
-        return axios.create({
-            baseURL: 'https://gateway.marvel.com:443/v1/public/',
-        })
-    }
-
-    
-    getAllCharacter = async ( offset = this._offset) => {
-        const res = await this.createBaseApi().get(`characters?limit=9&offset=${offset}&apikey=${this._apiCode}`)
+    const getAllCharacter = async (offset = _offset) => {
+        const res = await request(`characters?limit=9&offset=${offset}&apikey=${_apiCode}`)
             .then(response => response.data.data.results);
-            
-        return res.map(this._transformCharacter);
+
+        return res.map(_transformCharacter);
     }
 
-    getCharacter = async (id) => {
-        const res = await this.createBaseApi().get(`characters/${id}?apikey=${this._apiCode}`)
+    const getCharacter = async (id) => {
+        const res = await request(`characters/${id}?apikey=${_apiCode}`)
             .then(response => response.data.data.results);
-        return this._transformCharacter(res[0]);
+        return _transformCharacter(res[0]);
     }
 
-    getComics = async (id) =>{
-        const res = await this.createBaseApi().get(`characters/${id}/comics?limit=10&apikey=${this._apiCode}`)
-            .then(response => response.data.data.results);
-        return res;
+    const getAllComics = async (offset) =>{
+        const res = await request(`/comics?orderBy=-focDate&limit=8&offset=${offset}&apikey=1bc7ce84491b34fe085720cc6b7cb6a5`)
+        .then(response => response.data.data.results);
+        
+        return res.map(_transformComics);
     }
 
-    _transformCharacter = (response) => {
+    const getComics = async (id) =>{
+        const res = await request(`/comics/${id}?apikey=1bc7ce84491b34fe085720cc6b7cb6a5`)
+        .then(response => response.data.data.results);
+        return _transformComics(res[0]);
+    }
+
+    const _transformCharacter = (response) => {
         return {
-            id:response.id,
+            id: response.id,
             name: response.name,
             description: response.description,
             thumbnail: response.thumbnail.path + '.' + response.thumbnail.extension,
@@ -42,6 +43,19 @@ class MarvelService {
         }
     }
 
+    const _transformComics = (response) =>{
+        return {
+            id:response.id,
+            name: response.title,
+            description:response.description || 'There is no description',
+            pageCount:response.pageCount ? `${response.pageCount} p.`: 'No information about the number of pages',
+            thumbnail: response.thumbnail.path + '.' + response.thumbnail.extension,
+            language: response.textObjects.language || 'en-us',
+            price:response.prices[0].price? `${response.prices[0].price} $ ` : 'not avaible'
+        }
+    }
+
+    return [loading, error, getAllCharacter, getCharacter,clearError,getAllComics,getComics];
 }
 
-export default MarvelService;
+export default useMarvelService;
