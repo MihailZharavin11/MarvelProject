@@ -2,7 +2,7 @@ import React from 'react';
 import ComicsList from "../comicsList/ComicsList";
 import AppBanner from '../appBanner/AppBanner';
 
-const Comicspage = () => {
+const ComicsPage = () => {
     return (
         <>
             <AppBanner />
@@ -11,4 +11,4 @@ const Comicspage = () => {
     );
 }
 
-export default Comicspage;
+export default ComicsPage;
