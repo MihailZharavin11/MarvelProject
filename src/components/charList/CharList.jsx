@@ -12,7 +12,7 @@ const CharList = (props) => {
     const [newItemLoading, setItemLoading] = useState(true);
     const [offset, setOffset] = useState(511);
     const [charEnded, setCharEnded] = useState(false);
-    const [loading, error, getAllCharacter, getCharacter] = useMarvelService();
+    const {loading, error, getAllCharacter} = useMarvelService();
     const [inProp, setInProp] = useState(false);
     const duration = 500;
     const defaultStyle = {

@@ -8,7 +8,9 @@ const App = () => {
     const  NonMatch = lazy(()=> import('../pages/NoMatch'));
     const MainPage = lazy(()=> import('../pages/MainPage'));
     const ComicsPage = lazy(()=> import('../pages/ComicsPage'));
-    const SingleComicPage = lazy(()=> import('../pages/SingleComicPages'));
+    const SingleComicPage = lazy(()=> import('../pages/SingleComic/SingleComicPages'));
+    const SingleCharacter = lazy(()=> import('../pages/SingleCharacter/SingleCharacterPage'));
+    const SinglePage = lazy(()=> import('../pages/SinglePage'));
     return (
         <BrowserRouter>
             <div className="app">
@@ -19,7 +21,8 @@ const App = () => {
                         <Route path='/' element={<MainPage/>}/>
                         <Route path='/comics' element={<ComicsPage/>} />
                         <Route path="*" element = {<NonMatch/>} />
-                        <Route path ='/comics/:comicId' element = {<SingleComicPage/>} />
+                        <Route path ='/comics/:id' element = {<SinglePage Component={SingleComicPage} type={'comic'}/>} />
+                        <Route path ='/character/:id' element = {<SinglePage Component={SingleCharacter} type={'character'}/>} />
                     </Routes>
                     </Suspense>
                 </main>

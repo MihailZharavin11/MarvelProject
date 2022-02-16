@@ -19,7 +19,7 @@ const CharInfo = (props) => {
         updateChar()
     }, [props.id])
 
-    let [loading, error, getAllCharacter, getCharacter,clearError] = useMarvelService();
+    let {loading, error, getCharacter,clearError} = useMarvelService();
 
     const onCharLoaded = (char) => {
         setChar(char);

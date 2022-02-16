@@ -8,7 +8,7 @@ import useMarvelService from '../../services/MarvelService';
 const RandomChar = (props) => {
 
     const [char, setChar] = useState({});
-    const [loading, error, getAllCharacter, getCharacter,clearError] = useMarvelService();
+    const {loading, error, getCharacter,clearError} = useMarvelService();
 
     useEffect(() => {
         updateChar();
